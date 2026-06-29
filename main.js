@@ -2,28 +2,35 @@ let newX = 0, newY = 0, startX=0, startY = 0;
 
 const card = document.getElementById("card")
 
-card.addEventListener("mousedown", mouseDown)
+card.addEventListener("mousedown", ClickDown)
+card.addEventListener("touchstart", ClickDown)
 
 function mouseDown(e){
-    startX = e.clientX;
-    startX = e.clientX;
+    startX = e.clientX || e.targetTouches[0].pageX;
+    startX = e.clientX || e.targetTouches[0].pageY;
 
-    document.addEventListener("mousemove", mouseMove)
-    document.addEventListener("mouseup", mouseUp)
+    document.addEventListener("mousemove", Move)
+    document.addEventListener("touchmove", Move)
+    document.addEventListener("mouseup", ClikUp)
+    document.addEventListener("touchend",ClikUp)
 }
 
-function mouseMove(e){
-    newX = startX - e.clientX
-    newY = startY - e.clientY
+function Move(e){
+    var clientX = e.clientX || e.targetTouches[0].pageX
+    var clientY = e.clientY || e.targetTouches[0].pageY
 
-    startX = e.clientX
-    startY = e.clientY
+    newX = startX - clientX
+    newY = startY - clientY
+
+    startX = clientX
+    startY = clientY
 
     card.style.top = (card.offsetTop - newY) + "px"
     card.style.left = (card.offsetLeft - newX) + "px"
 }
 
-function mouseUp(e){
-    document.removeEventListener("mousemove",mouseMove)
+function ClikUp(e){
+    document.removeEventListener("mousemove", Move)
+    document.removeEventListener("touchmove", Move)
 }
 

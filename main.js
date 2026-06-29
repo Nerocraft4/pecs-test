@@ -4,8 +4,11 @@ const card = document.getElementById("card")
 
 card.addEventListener("mousedown", ClickDown)
 card.addEventListener("touchstart", ClickDown)
+//https://stackoverflow.com/questions/11817750/drag-and-drop-on-touchscreen
 
-function mouseDown(e){
+disableScroll();
+
+function ClickDown(e){
     startX = e.clientX || e.targetTouches[0].pageX;
     startX = e.clientX || e.targetTouches[0].pageY;
 
@@ -34,3 +37,18 @@ function ClikUp(e){
     document.removeEventListener("touchmove", Move)
 }
 
+function disableScroll() {
+    // Get the current page scroll position
+    scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop;
+    scrollLeft =
+        window.pageXOffset ||
+        document.documentElement.scrollLeft,
+
+        // if any scroll is attempted,
+        // set this to the previous value
+        window.onscroll = function () {
+            window.scrollTo(scrollLeft, scrollTop);
+        };
+ }
